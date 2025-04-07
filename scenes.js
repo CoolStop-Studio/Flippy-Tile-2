@@ -18,11 +18,28 @@ const scenes = {
     levelSelect: {
         html: `
         <h1 id="title">select level</h1>
-        <button onClick="switchToScene('game')">1</button>
-        <button onClick="switchToScene('game')">2</button>
-        <button onClick="switchToScene('game')">3</button>
+        <div id="buttonsContainer"></div>
         `,
-        js: ``,
+        js: `
+        let levels;
+
+        async function loadLevels() {
+            const res = await fetch('levels.json');
+            const data = await res.json();
+            levels = data.levels;
+
+            levels.forEach((e) => {
+                const newButton = document.createElement('button');
+                newButton.innerHTML = e.name;
+                newButton.addEventListener('click', () => switchToScene('game'));
+                document.getElementById("buttonsContainer").appendChild(newButton)
+            });
+        }
+          
+        loadLevels();
+
+          
+        `,
         css: `
         h1 {
             color: blue;
@@ -34,6 +51,9 @@ const scenes = {
         <h1 id="title">play game👍</h1>
         `,
         js: `
+        
+        
+
         `,
         css: `
         h1 {
